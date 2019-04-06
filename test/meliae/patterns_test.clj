@@ -19,6 +19,11 @@
   banana [color ::color sweetness ::integer]
   basket [fruit1 ::fruit fruit2 ::fruit])
 
+(defmultipattern recursive-basket)
+(defpatterns recursive-basket
+  baskets-basket [baskets (s/coll-of ::recursive-basket)]
+  fruit-basket [fruits (s/coll-of ::fruit)])
+
 ;; Since all the patterns have been defined now, let's instrument them.
 (stest/instrument (stest/enumerate-namespace 'meliae.patterns-test))
 
@@ -29,7 +34,13 @@
            "(->basket (->banana :meliae.patterns-test/yellow 10) (->apple :meliae.patterns-test/green))")))
   (testing "constant to string"
     (is (= (pattern->string (->constant))
-           "(->constant)"))))
+           "(->constant)")))
+  (testing "recursive basket to string"
+    (is (= (pattern->string (->baskets-basket
+                             [(->baskets-basket (map identity [(->constant)
+                                                               (->banana ::yellow 10)]))
+                              (->apple ::red)]))
+           "(->baskets-basket [(->baskets-basket ((->constant) (->banana :meliae.patterns-test/yellow 10))) (->apple :meliae.patterns-test/red)])"))))
 
 (deftest matching
   (testing "basket"

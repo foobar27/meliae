@@ -26,14 +26,14 @@
 
 (defmulti print-pattern class :default ::classic-pprint)
 (defmethod print-pattern ::classic-pprint [v]
-  (if (vector? v)
+  (if (sequential? v)
     (do
-      (print "[")
+      (print (if (vector? v) "[" "("))
       (doseq [[i x] (map vector (iterate inc 0) v)]
         (when (pos? i)
           (print " "))
         (print-pattern x))
-      (print "]"))
+      (print (if (vector? v) "]" ")")))
     (print v)))
 
 ;; TODO Define PARENT patterns
