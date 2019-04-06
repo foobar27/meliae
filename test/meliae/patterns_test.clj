@@ -24,9 +24,9 @@
 
 (deftest to-string
   (testing "simple hierarchy"
-    (is (= (pattern->string (->basket (->banana :yellow 10)
-                                      (->apple :green)))
-           "(->basket (->banana :yellow 10) (->apple :green))")))
+    (is (= (pattern->string (->basket (->banana ::yellow 10)
+                                      (->apple ::green)))
+           "(->basket (->banana :meliae.patterns-test/yellow 10) (->apple :meliae.patterns-test/green))")))
   (testing "constant to string"
     (is (= (pattern->string (->constant))
            "(->constant)"))))
