@@ -44,8 +44,8 @@
 
 (deftest matching
   (testing "basket"
-    (let [u (->banana :yellow 10)
-          v (->banana :black 12)]
+    (let [u (->banana ::yellow 10)
+          v (->banana ::black 12)]
       (is (= (match* [(->basket u v)]
                [(->basket a b)] {:a a :b b})
              {:a u :b v}))))
@@ -55,12 +55,12 @@
 
 (deftest no-matching-clause
   (testing "default clause"
-    (is (= (match* [(->apple :red)]
+    (is (= (match* [(->apple ::red)]
              :else "No matching clause")
            "No matching clause")))
   (testing "missing clause should show a readable pattern"
-    (is (thrown-with-msg? IllegalArgumentException #"\QNo matching clause: [(->apple :red)]\E"
-                          (match* [(->apple :red)]
+    (is (thrown-with-msg? IllegalArgumentException #"\QNo matching clause: [(->apple :meliae.patterns-test/red)]\E"
+                          (match* [(->apple ::red)]
                             [(->constant)] true)))))
 
 (deftest predicates
@@ -73,6 +73,5 @@
       (is (not (banana? apple))))))
 
 (deftest spec-test
-  (is (s/valid? ::fruit (->banana :yellow 2)))
+  (is (s/valid? ::fruit (->banana ::yellow 2)))
   (is (not (s/valid? ::fruit 2))))
-

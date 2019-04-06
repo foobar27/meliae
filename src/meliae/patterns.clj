@@ -97,10 +97,10 @@
         parent-matcher-form (get-matcher-form resolved-parent-ctor-symbol)] 
     `(do
        (defmethod ~parent-spec-symbol ~kw [_#]
-         (do (comment
-               (s/cat ~@(flat-for [[n s] named-args]
-                            [(make-local-keyword n) s])))
-             any?))
+         ;; We would need something to verify keys and their corresponding values here.
+         ;; Let's just assume for now that everything has been constructed via the right ctor
+         ;; (and is thus guaranteed to be correct)
+         any?)
        (register-matcher-form! '~(make-local-symbol ctor-symbol)
                                (fn [~@arg-symbols]
                                  (cond-> (~parent-matcher-form ~kw)
