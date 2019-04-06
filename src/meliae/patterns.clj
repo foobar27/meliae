@@ -116,6 +116,10 @@
            (.write ^java.io.Writer *out* " ")
            (print-pattern v#))
          (.write ^java.io.Writer *out* ")"))
+       (s/fdef ~ctor-symbol
+         :args (s/cat ~@(flat-for [[n s] named-args]
+                            [(make-local-keyword n) s]))
+         :ret any?)
        (defn ~ctor-symbol [~@arg-symbols]
          (~parent-ctor-symbol ~kw ~@parent-ctor-args))
        (defn ~q-symbol [~qx-symbol]
